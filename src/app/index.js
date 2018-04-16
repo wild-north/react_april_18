@@ -1,62 +1,70 @@
-import React, {Component} from 'react';
-import { UserList } from '../user-list';
-import { WithSpinner } from '../with-spinner';
+import React, {Component, Fragment} from 'react';
+import { Content } from '../content';
+import { Sidebar } from '../sidebar';
+import { Header } from '../header';
+
 // import PropTypes from 'prop-types';
 
-class Root extends Component {
+const todos = {
+    1: {id: 1, text: 'Выучить реакт', done: true},
+    2: {id: 2, text: 'Выучить реакт-роутер', done: false},
+    3: {id: 3, text: 'Выучить редакс', done: false}
+};
+
+const categories = {
+    1: {id: 1, name: 'React', parentId: null},
+    2: {id: 2, name: 'React-router', parentId: 1},
+    3: {id: 3, name: 'Выучить редакс', parentId: null}
+};
+
+class TodoApp extends Component {
     constructor() {
         super();
         this.state = {
-            list: [],
-            isFetching: false
+            todos,
+            categories
         };
-
-        this.onRemoveUser = this.onRemoveUser.bind(this);
-        this.fetchData = this.fetchData.bind(this);
+        this.toggleDone = this.toggleDone.bind(this);
+        this.saveItem = this.saveItem.bind(this);
     }
 
-    onRemoveUser(id) {
+    toggleDone(id) {
+        const updatedItem = Object.assign(
+            {}, this.state.todos[id], {done: !this.state.todos[id].done}
+        );
+
         this.setState({
-            list: this.state.list.filter(value => value.id !== id)
+            todos: Object.assign({}, this.state.todos, { [id]: updatedItem })
         });
-    };
-
-    componentWillMount() {
-        this.setState({ isFetching: true });
-
-        setTimeout(() => this.fetchData(), 1000);
-
-
     }
 
-    fetchData() {
-        fetch('data.json')
-            .then(resp => resp.json())
-            .then(list => {
-                this.setState({
-                    list,
-                    isFetching: false
-                });
-            });
+    saveItem(id, text) {
+        const updatedItem = Object.assign(
+            {}, this.state.todos[id], { text }
+        );
+
+        this.setState({
+            todos: Object.assign({}, this.state.todos, { [id]: updatedItem })
+        });
     }
+
+
 
     render() {
-
         return (
-            <WithSpinner predicate={ this.state.isFetching }>
-                <div className="App">
-                    {
-                        this.state.list.length
-                            ? <UserList list={this.state.list} onRemoveUser={ this.onRemoveUser }/>
-                            : <p>No users found</p>
-                    }
-                </div>
-            </WithSpinner>
+            <Fragment>
+                <Header/>
+                <Sidebar/>
+                <Content todos={ this.state.todos }
+                         toggleDone={ this.toggleDone }
+                         saveItem={ this.saveItem }
+                />
+            </Fragment>
         );
     }
 }
 
-export default Root;
+export default TodoApp;
 
 
 
