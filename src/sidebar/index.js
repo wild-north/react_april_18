@@ -1,5 +1,5 @@
 import React from 'react';
-import { map } from 'lodash';
+import { map, compact, isEmpty } from 'lodash';
 import './styles.css';
 
 const CategoryItem = ({ category, categories, selectCat }) => {
@@ -16,19 +16,22 @@ const CategoryItem = ({ category, categories, selectCat }) => {
     );
 };
 
-const CategoryList = ({ categories, parentId, selectCat }) => (
-    <ol>
-        {
-            map(categories, cat =>
-                cat.parentId === parentId
-                    && <CategoryItem key={cat.id}
-                                     category={ cat }
-                                     categories={ categories }
-                                     selectCat={ selectCat }/>
-            )
+const CategoryList = ({ categories, parentId, selectCat }) => {
+    const children = compact(map(categories, cat => {
+        if (cat.parentId === parentId) {
+            return <CategoryItem key={cat.id}
+                        category={ cat }
+                        categories={ categories }
+                        selectCat={ selectCat }/>
         }
-    </ol>
-);
+    }));
+    
+    if (!isEmpty(children)) {
+        return ( <ul>{ children }</ul> );
+    }
+
+    return null;
+};
 
 export const Sidebar = ({ categories, selectCat }) => {
     return (

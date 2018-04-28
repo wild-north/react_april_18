@@ -7,8 +7,6 @@ import './index.css';
 import classnames from 'classnames';
 import Modal from '../components/modal';
 
-// import PropTypes from 'prop-types';
-
 const todos = {
     1: {id: 1, text: 'Выучить реакт', done: true, categoryId: 1},
     2: {id: 2, text: 'Выучить реакт-роутер', done: false, categoryId: 2},
