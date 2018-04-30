@@ -1,42 +1,17 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import { reducer } from './reducers';
 
-const initialState = {
-    count: 0,
-    price: 10,
-    total: 0
-};
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export const store = createStore(function(state = initialState, action) {
+const middlewares = [];
 
-    switch(action.type) {
-        case 'INCREMENT': {
-            const newCount = state.count + 1;
+export function configureStore(preloadedState) {
+    return createStore(
+        reducer,
+        preloadedState,
+        composeEnhancers(
+            applyMiddleware( ...middlewares )
+        )
+    );
+}
 
-            return {
-                count: newCount,
-                price: state.price,
-                total: state.price * newCount
-            }
-        }
-
-        case 'DECREMENT': {
-            const newCount = state.count - 1;
-
-            return {
-                count: newCount > 0 ? newCount : 0,
-                price: state.price,
-                total: newCount > 0 ? state.price * newCount : 0
-            }
-        }
-
-        case 'CALCULATE': {
-            return Object.assign({}, state, {
-                count: action.payload,
-                total: state.price * action.payload
-            });
-        }
-    }
-
-
-    return state;
-});

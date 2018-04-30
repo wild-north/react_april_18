@@ -1,6 +1,5 @@
 import React from 'react';
 import { map, filter } from 'lodash';
-// import PropTypes from 'prop-types';
 import { TodoItem } from '../todo-item';
 
 export const Content = (props) => {
@@ -8,16 +7,20 @@ export const Content = (props) => {
 
     const filteredItems = filter(todos, item => item.categoryId === categoryId);
 
+    const children = map(filteredItems, item => (
+        <TodoItem item={ item }
+                  key={ item.id }
+                  toggleDone = { toggleDone }
+                  saveItem = { saveItem }
+        />
+    ));
+
     return (
         <ul>
             {
-                map(filteredItems, item => (
-                    <TodoItem item={ item }
-                              key={ item.id }
-                              toggleDone = { toggleDone }
-                              saveItem = { saveItem }
-                    />
-                ))
+                children.length
+                    ? children
+                    : <p>There is no todo items</p>
             }
         </ul>
     );
