@@ -1,12 +1,11 @@
 import React, {Component, Fragment} from 'react';
 import { Content } from '../content';
 import { Sidebar } from '../sidebar';
-import { sidebarConnector } from '../sidebar/connector';
-import { contentConnector } from '../content/connector';
+import { Header } from '../header';
+import { Route, Link, NavLink, Switch } from 'react-router-dom';
 import './index.css';
-
-const MySidebar = sidebarConnector(Sidebar);
-const MyContent = contentConnector(Content);
+import classnames from 'classnames';
+import Modal from '../components/modal';
 
 const todos = {
     1: {id: 1, text: 'Выучить реакт', done: true, categoryId: 1},
@@ -26,13 +25,74 @@ const categories = {
 };
 
 class TodoApp extends Component {
+    constructor() {
+        super();
+        this.state = {
+            todos,
+            categories,
+            isModalOpened: false,
+            selectedCat: 1
+        };
+        this.toggleDone = this.toggleDone.bind(this);
+        this.saveItem = this.saveItem.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
+        this.selectCat = this.selectCat.bind(this);
+    }
+
+    toggleDone(id) {
+        const updatedItem = Object.assign(
+            {}, this.state.todos[id], {done: !this.state.todos[id].done}
+        );
+
+        this.setState({
+            todos: Object.assign({}, this.state.todos, { [id]: updatedItem })
+        });
+    }
+
+    selectCat(id) {
+        this.setState({
+            selectedCat: id
+        });
+    }
+
+    saveItem(id, text) {
+        const updatedItem = Object.assign(
+            {}, this.state.todos[id], { text }
+        );
+
+        this.setState({
+            todos: Object.assign({}, this.state.todos, { [id]: updatedItem })
+        });
+    }
+
+    toggleModal() {
+        this.setState({
+            isModalOpened: !this.state.isModalOpened
+        });
+    }
+
     render() {
+        const params = {
+            todos: this.state.todos,
+            toggleDone: this.toggleDone,
+            saveItem: this.saveItem,
+            Content: this.getContent
+        };
+
         return (
             <Fragment>
                 <div className="wrapper">
-                    <MySidebar selectCat={ this.selectCat }/>
-                    <MyContent saveItem={ this.saveItem }/>
+                    { this.state.selectedCat }
+                    <Sidebar categories={ this.state.categories }
+                             selectCat={ this.selectCat }/>
+                    <Content todos={ this.state.todos }
+                             toggleDone={ this.toggleDone }
+                             saveItem={ this.saveItem }
+                             categoryId={ this.state.selectedCat }/>
                 </div>
+                {/*<button onClick={ this.toggleModal }>Open Modal</button>*/}
+                {/*<Modal show={ this.state.isModalOpened }*/}
+                       {/*toggle={ this.toggleModal }/>*/}
             </Fragment>
         );
     }
@@ -40,6 +100,17 @@ class TodoApp extends Component {
 
 export default TodoApp;
 
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+function Main({ Content }) {
+    return (
+        <div className="main-wrapper">
+            {
+                <Content/>
+            }
+        </div>
+    );
+}
 
 
 

@@ -70,7 +70,7 @@ class EditItem2 extends Component {
         const { id } = this.props.item;
         const { text } = this.state;
 
-        this.props.saveItem({ id, text });
+        this.props.saveItem(id, text);
         this.props.toggleMode();
     }
 
