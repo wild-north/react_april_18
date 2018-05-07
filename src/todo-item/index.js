@@ -45,53 +45,6 @@ const Item = ({ item, toggleDone, toggleMode }) => (
     </Fragment>
 );
 
-class EditItem2 extends Component {
-    constructor() {
-        super();
-        this.state = {
-            text: ''
-        };
-        this.changeText = this.changeText.bind(this);
-        this.onSave = this.onSave.bind(this);
-    }
-
-    changeText(ev) {
-        this.setState({
-            text: ev.target.value
-        })
-    }
-
-    componentDidMount() {
-        this.setState({
-            text: this.props.item.text
-        });
-    }
-    onSave() {
-        const { id } = this.props.item;
-        const { text } = this.state;
-
-        this.props.saveItem({ id, text });
-        this.props.toggleMode();
-    }
-
-    render() {
-        const { item, toggleMode } = this.props;
-
-        return (
-            <Fragment>
-                <input type="text"
-                       ref={ input => { this.textField = input; } }
-                       value={ item.text }
-                       onChange={ this.changeText }
-                />
-                <button onClick={ this.onSave }>Save</button>
-                <button onClick={ toggleMode }>Cancel</button>
-            </Fragment>
-        );
-    }
-}
-
-
 const EditItem = ({ item, saveItem, toggleMode }) => {
     let textField = null;
 

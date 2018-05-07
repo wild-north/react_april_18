@@ -1,4 +1,5 @@
 import * as constants from '../actions/constants';
+import { map } from 'lodash';
 
 const initialState = {
     list: {
@@ -18,9 +19,32 @@ export const categories = function (state = initialState, action) {
         case constants.CATEGORY_SELECT:
             return Object.assign({}, state, {
                 selectedCategory: payload
-            })
+            });
+        case constants.CATEGORY_ADD: {
+            const lastId = getNewId(state.list);
+
+            const newItem = {
+                id: lastId,
+                name: payload,
+                parentId: null
+            };
+
+            const updatedList = Object.assign({}, state.list, {
+                [lastId]: newItem
+            });
+
+            return Object.assign({}, state, {
+                list: updatedList
+            });
+        }
     }
 
 
     return state;
 };
+
+function getNewId(list) {
+    const ids = map(list, item => item.id);
+
+    return ids[ids.length - 1] + 1;
+}
