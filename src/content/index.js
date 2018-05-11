@@ -3,11 +3,9 @@ import { map, filter } from 'lodash';
 import { TodoItem } from '../todo-item';
 
 export const Content = (props) => {
-    const { todos, toggleDone, saveItem, categoryId } = props;
+    const { todos, toggleDone, saveItem } = props;
 
-    const filteredItems = filter(todos, item => item.categoryId === categoryId);
-
-    const children = map(filteredItems, item => (
+    const children = map(todos, item => (
         <TodoItem item={ item }
                   key={ item.id }
                   toggleDone = { toggleDone }

@@ -1,7 +1,8 @@
 import * as constants from '../actions/constants';
 import { map } from 'lodash';
+import Immutable from 'immutable';
 
-const initialState = {
+const initialState = Immutable.fromJS({
     list: {
         1: {id: 1, name: 'React', parentId: null},
         2: {id: 2, name: 'React-router', parentId: 1},
@@ -10,18 +11,19 @@ const initialState = {
         5: {id: 5, name: 'Блабла 2', parentId: 2}
     },
     selectedCategory: 1
-};
+});
 
 export const categories = function (state = initialState, action) {
     const { type, payload } = action;
 
     switch (type) {
         case constants.CATEGORY_SELECT:
-            return Object.assign({}, state, {
-                selectedCategory: payload
-            });
+            // return Object.assign({}, state, {
+            //     selectedCategory: payload
+            // });
+            return state.set('selectedCategory', payload);
         case constants.CATEGORY_ADD: {
-            const lastId = getNewId(state.list);
+            const lastId = getNewId(state.get('list').toJS());
 
             const newItem = {
                 id: lastId,
@@ -36,6 +38,11 @@ export const categories = function (state = initialState, action) {
             return Object.assign({}, state, {
                 list: updatedList
             });
+
+            // @todo: fix me
+            // return state.set('list', () => {
+            //     return state.get('list');
+            // });
         }
     }
 

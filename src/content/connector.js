@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
 import { toggleDone } from '../actions';
+import { getItemsForSelectedCategory } from '../selectors'
 
 const mapStateToProps = (state) => {
     return {
-        todos: state.todos.items,
-        categoryId: state.categories.selectedCategory
+        todos: getItemsForSelectedCategory(state)
     };
 };
 const mapDispatchToProps = {
