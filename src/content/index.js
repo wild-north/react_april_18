@@ -1,16 +1,15 @@
 import React from 'react';
-import { map, filter } from 'lodash';
+import { map } from 'lodash';
 import { TodoItem } from '../todo-item';
+import { todoConnector } from './connector';
+
+const Todo = todoConnector(TodoItem);
 
 export const Content = (props) => {
-    const { todos, toggleDone, saveItem } = props;
+    const { todos } = props;
 
     const children = map(todos, item => (
-        <TodoItem item={ item }
-                  key={ item.id }
-                  toggleDone = { toggleDone }
-                  saveItem = { saveItem }
-        />
+        <Todo item={ item } key={ item.id }/>
     ));
 
     return (

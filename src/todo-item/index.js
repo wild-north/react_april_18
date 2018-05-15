@@ -1,5 +1,4 @@
-import React, {Component, PureComponent, Fragment} from 'react';
-// import PropTypes from 'prop-types';
+import React, { PureComponent, Fragment } from 'react';
 
 export class TodoItem extends PureComponent {
     constructor() {
@@ -24,24 +23,22 @@ export class TodoItem extends PureComponent {
             <li>
                 {
                     editMode
-                        ? <EditItem { ...this.props }
-                                    toggleMode={ toggleMode }/>
-                        : <Item { ...this.props }
-                                toggleMode={ toggleMode }/>
+                        ? <EditItem { ...this.props } toggleMode={ toggleMode }/>
+                        : <Item { ...this.props } toggleMode={ toggleMode }/>
                 }
             </li>
         );
     }
 }
 
-const Item = ({ item, toggleDone, toggleMode }) => (
+const Item = ({ item, toggleDone, toggleMode, deleteItem }) => (
     <Fragment>
         <input type="checkbox"
                checked={ item.done }
                onChange={ () => toggleDone(item.id) }/>
         <span>{ item.text }</span>
         <button onClick={ toggleMode }>Edit</button>
-        <button>Delete</button>
+        <button onClick={ () => deleteItem(item.id) }>Delete</button>
     </Fragment>
 );
 
@@ -52,7 +49,7 @@ const EditItem = ({ item, saveItem, toggleMode }) => {
         const { id } = item;
         const text = textField.value;
 
-        saveItem(id, text);
+        saveItem({ id, text });
         toggleMode();
     };
 

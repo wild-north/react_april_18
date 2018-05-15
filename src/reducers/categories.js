@@ -18,36 +18,28 @@ export const categories = function (state = initialState, action) {
 
     switch (type) {
         case constants.CATEGORY_SELECT:
-            // return Object.assign({}, state, {
-            //     selectedCategory: payload
-            // });
             return state.set('selectedCategory', payload);
+
         case constants.CATEGORY_ADD: {
-            const lastId = getNewId(state.get('list').toJS());
+            const id = getNewId(state.get('list').toJS());
 
-            const newItem = {
-                id: lastId,
-                name: payload,
-                parentId: null
-            };
+            return state.update(
+                'list',
+                value => {
+                    const newCategory = Immutable.Map({
+                        id,
+                        name: payload,
+                        parentId: state.get('selectedCategory') || null
+                    });
 
-            const updatedList = Object.assign({}, state.list, {
-                [lastId]: newItem
-            });
-
-            return Object.assign({}, state, {
-                list: updatedList
-            });
-
-            // @todo: fix me
-            // return state.set('list', () => {
-            //     return state.get('list');
-            // });
+                    return value.set(id.toString(), newCategory);
+                }
+            )
         }
+
+        default:
+            return state;
     }
-
-
-    return state;
 };
 
 function getNewId(list) {

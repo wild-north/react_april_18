@@ -1,13 +1,13 @@
-import { createSelector } from 'reselect';
+import { createImmutableSelector } from '../helpers';
 
 const data = (state) => state.categories;
 
-export const list = createSelector(
+export const list = createImmutableSelector(
     data,
     data => data.get('list')
 );
 
-export const selectedCategory = createSelector(
+export const selectedCategory = createImmutableSelector(
     data,
     data => data.get('selectedCategory')
 );

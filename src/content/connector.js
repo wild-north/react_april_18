@@ -1,14 +1,18 @@
-import { connect } from 'react-redux';
-import { toggleDone } from '../actions';
-import { getItemsForSelectedCategory } from '../selectors'
+import { toggleDone, saveTodo, deleteTodo } from '../actions';
+import { itemsForSelectedCategory } from '../selectors';
+import { createConnectorForSelector } from '../helpers';
+import { createSelector } from 'reselect';
 
-const mapStateToProps = (state) => {
-    return {
-        todos: getItemsForSelectedCategory(state)
-    };
-};
-const mapDispatchToProps = {
-    toggleDone
-};
+const contentSelector = createSelector(
+    itemsForSelectedCategory,
+    (todos) => ({
+        todos: todos.toJS()
+    })
+);
+export const contentConnector = createConnectorForSelector(contentSelector);
 
-export const contentConnector = connect(mapStateToProps, mapDispatchToProps);
+export const todoConnector = createConnectorForSelector(null, {
+    toggleDone,
+    saveItem: saveTodo,
+    deleteItem: deleteTodo
+});

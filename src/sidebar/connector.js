@@ -2,11 +2,11 @@ import { connect } from 'react-redux';
 import {
     selectCategory, addCategory, addCategoryChange
 } from '../actions';
-import { createSelector } from 'reselect';
+import { createImmutableSelector } from '../helpers';
 
 import { list, selectedCategory } from '../selectors/categories'
 
-const sidebarSelector = createSelector(
+const sidebarSelector = createImmutableSelector(
     [list, selectedCategory],
     (list, selectedCategory) => ({
         categories: list.toJS(),
@@ -15,7 +15,7 @@ const sidebarSelector = createSelector(
 );
 
 export const sidebarConnector = connect(
-    (state) => sidebarSelector(state),
+    sidebarSelector,
     { selectCategory }
 );
 

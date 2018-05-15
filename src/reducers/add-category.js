@@ -15,8 +15,8 @@ export const addCategory = function (state = initialState, action) {
 
         case constants.CATEGORY_ADD:
             return initialState;
+
+        default:
+            return state;
     }
-
-
-    return state;
 };

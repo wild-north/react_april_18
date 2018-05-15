@@ -14,7 +14,7 @@ class TodoApp extends Component {
             <Fragment>
                 <div className="wrapper">
                     <MySidebar />
-                    <MyContent saveItem={ this.saveItem }/>
+                    <MyContent />
                 </div>
             </Fragment>
         );
