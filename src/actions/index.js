@@ -13,6 +13,8 @@ export const requestData = createAction('DATA_REQUEST');
 export const resolveData = createAction('DATA_RESOLVE');
 export const failData = createAction('DATA_FAILURE');
 
+export const confirmTaskDeletion = createAction(constants.TASK_DELETE_CONFIRM);
+
 
 export const getData = (payload) => (dispatch) => {
     dispatch(requestData());

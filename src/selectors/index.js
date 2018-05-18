@@ -8,7 +8,6 @@ const items = createImmutableSelector(
     todos => todos.get('items')
 );
 
-
 export const itemsForSelectedCategory = createImmutableSelector(
     [items, selectedCategory],
     (items, selectedCategory) => {

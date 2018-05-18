@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 class Modal extends Component {
     componentDidMount() {
         this.modalRoot = document.createElement('div');
-        this.modalRoot.id = 'modal-root';
+        this.modalRoot.id = 'modals-root';
         document.body.appendChild(this.modalRoot);
 
 

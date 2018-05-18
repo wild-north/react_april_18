@@ -31,16 +31,17 @@ export class TodoItem extends PureComponent {
     }
 }
 
-const Item = ({ item, toggleDone, toggleMode, deleteItem }) => (
+const Item = ({ item, toggleDone, toggleMode, deleteItem, showModal }) => (
     <Fragment>
         <input type="checkbox"
                checked={ item.done }
                onChange={ () => toggleDone(item.id) }/>
         <span>{ item.text }</span>
         <button onClick={ toggleMode }>Edit</button>
-        <button onClick={ () => deleteItem(item.id) }>Delete</button>
+        <button onClick={ () => showModal() }>Delete</button>
     </Fragment>
 );
+// deleteItem(item.id)
 
 const EditItem = ({ item, saveItem, toggleMode }) => {
     let textField = null;

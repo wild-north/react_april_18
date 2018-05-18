@@ -23,17 +23,15 @@ export const categories = function (state = initialState, action) {
         case constants.CATEGORY_ADD: {
             const id = getNewId(state.get('list').toJS());
 
+            const newCategory = Immutable.Map({
+                id,
+                name: payload,
+                parentId: state.get('selectedCategory') || null
+            });
+
             return state.update(
                 'list',
-                value => {
-                    const newCategory = Immutable.Map({
-                        id,
-                        name: payload,
-                        parentId: state.get('selectedCategory') || null
-                    });
-
-                    return value.set(id.toString(), newCategory);
-                }
+                value => value.set(id.toString(), newCategory)
             )
         }
 

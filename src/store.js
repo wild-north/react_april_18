@@ -9,36 +9,6 @@ const logger = store => next => action => {
     return next(action);
 };
 
-// const functionAsyncAction = store => next => action => {
-//     if (typeof action === 'function') {
-//         return action(store.dispatch);
-//     }
-//
-//     return next(action);
-// };
-
-// function fetchData(store) {
-//     return function (next) {
-//         return function(action) {
-//             if (action.type === 'CATEGORY_ADD') {
-//                 setTimeout(() => {
-//                     Math.random() > 0.5
-//                         ? store.dispatch({
-//                             type: 'DATA_RESPONSE',
-//                             payload: true
-//                         })
-//                         : store.dispatch({
-//                             type: 'DATA_FAILURE',
-//                             payload: false
-//                         })
-//                 }, 2000);
-//             }
-//
-//             return next(action);
-//         }
-//     }
-// }
-
 const middlewares = [thunk, logger];
 
 export function configureStore(preloadedState) {
