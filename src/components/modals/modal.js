@@ -6,25 +6,30 @@ const MODAL_SHOW = 'app/modals/MODAL_SHOW';
 const MODAL_HIDE = 'app/modals/MODAL_HIDE';
 
 const initialState = Immutable.fromJS({
-    show: false
+    show: false,
+    data: null
 });
 
 /*reducer*/
 export default function reducer(state = initialState, action) {
-    const actions = {
-        [MODAL_SHOW]: () => {
-            return state.set('show', true);
-        },
-        [MODAL_HIDE]: () => {
-            return state.set('show', false);
-        },
-        [TASK_DELETE_CONFIRM]: () => {
-            return state.set('show', false);
-        }
-    };
+    const { type, payload } = action;
 
-    return action.type in actions ? actions[action.type]() : state;
+    switch (type) {
+      case MODAL_SHOW:
+        return state.set('show', true).set('data', payload);
+
+      case MODAL_HIDE:
+        return initialState;
+
+      default:
+        return state;
+    }
 }
+
+// /*helpers*/
+// function showModal(state, { payload }) {
+//   return () => state.set('show', true);
+// }
 
 /*actions*/
 export const showModal = createAction(MODAL_SHOW);
@@ -32,8 +37,12 @@ export const hideModal = createAction(MODAL_HIDE);
 
 /*selectors*/
 
-const data = state => state.modal;
+const modalState = state => state.modal;
 export const isVisible = createImmutableSelector(
-    data,
-    data => data.get('show')
+  modalState,
+  modalState => modalState.get('show')
+);
+export const data = createImmutableSelector(
+  modalState,
+  modalState => modalState.get('data')
 );

@@ -1,9 +1,9 @@
 import { toggleDone, saveTodo, deleteTodo } from '../actions';
 import { itemsForSelectedCategory } from '../selectors';
-import { createConnectorForSelector } from '../helpers';
+import { createConnectorForSelector, createImmutableSelector } from '../helpers';
 import { createSelector } from 'reselect';
-import { showModal } from '../components/modals/modal';
-import { confirmTaskDeletion } from '../actions';
+import { showModal, data } from '../components/modals/modal';
+import { reallyBigAction } from '../actions';
 
 const contentSelector = createSelector(
     itemsForSelectedCategory,
@@ -20,6 +20,11 @@ export const todoConnector = createConnectorForSelector(null, {
     showModal
 });
 
-export const confirmModalConnector = createConnectorForSelector(null, {
-    onConfirm: () => confirmTaskDeletion()
+const confirmModalSelector = createImmutableSelector(
+  data,
+  data => ({ data })
+);
+
+export const confirmModalConnector = createConnectorForSelector(confirmModalSelector, {
+    onConfirm: reallyBigAction
 });

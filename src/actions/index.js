@@ -1,5 +1,7 @@
 import * as constants from './constants';
-import { createAction } from '../helpers';
+import { createAction, createSequence } from '../helpers';
+import { hideModal } from '../components/modals/modal';
+import { isArray, isEmpty } from 'lodash';
 
 export const selectCategory = createAction(constants.CATEGORY_SELECT);
 export const toggleDone = createAction(constants.TODO_DONE_TOGGLE);
@@ -25,3 +27,58 @@ export const getData = (payload) => (dispatch) => {
             : dispatch(failData());
     }, 2000);
 };
+
+// const addCatAndCloseModal = (dispatch) => {
+//   dispatch({ type: 'CAT_ADD' });
+//
+//   dispatch({ type: 'MODAL_CLOSE' });
+// };
+//
+//
+// <button onClick={ addCatAndCloseModal }>OK</button>
+
+
+// const createSequence = (config) =>
+//   (payload) =>
+//     (dispatch) => {
+//       if (isArray(config.actions) && !isEmpty(config.actions)) {
+//         config.actions.forEach(
+//           action => dispatch(action(payload))
+//         );
+//       }
+//     };
+
+export const toggleDoneAndDoNothing = createSequence({
+  actions: [toggleDone]
+});
+
+export const deleteCategoryAndCloseModal = createSequence({
+  actions: [deleteTodo, () => hideModal()]
+});
+
+export const reallyBigAction = createSequence({
+  actions: [
+    toggleDoneAndDoNothing,
+    deleteCategoryAndCloseModal
+  ]
+});
+
+// ДЗ - реализовать функцию и middleware, которые можно использовать так:
+
+export const fetchData = createApiCall({
+  endpoint: 'http://blabla.com',
+  method: 'GET',
+  payload,
+  actions: [
+    'DATA_FETCH_REQUEST',
+    'DATA_FETCH_SUCCESS',
+    'DATA_FETCH_FAILURE'
+  ]
+});
+
+//fetchData({ myData: 123123 }); // http://blabla.com?myData=123123
+
+/*export const deleteCategoryAndCloseModal = (payload) => (dispatch) => {
+    dispatch(deleteTodo(payload));
+    dispatch(hideModal());
+};*/

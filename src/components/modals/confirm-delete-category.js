@@ -9,10 +9,10 @@ const Buttons = ({ onConfirm, onReject }) => (
     </div>
 );
 
-export const Confirm = ({ show, hideModal, onConfirm, onReject }) => {
+export const Confirm = ({ show, hideModal, onConfirm, onReject, data }) => {
     return (
         <ModalComponent buttons={
-            <Buttons onConfirm={ onConfirm } onReject={ onReject }/>
+            <Buttons onConfirm={ () => onConfirm(data) } onReject={ onReject }/>
         }>
             <p>Are U sure you want to delete this task?</p>
         </ModalComponent>

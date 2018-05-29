@@ -38,7 +38,7 @@ const Item = ({ item, toggleDone, toggleMode, deleteItem, showModal }) => (
                onChange={ () => toggleDone(item.id) }/>
         <span>{ item.text }</span>
         <button onClick={ toggleMode }>Edit</button>
-        <button onClick={ () => showModal() }>Delete</button>
+        <button onClick={ () => showModal(item.id) }>Delete</button>
     </Fragment>
 );
 // deleteItem(item.id)
