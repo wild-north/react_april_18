@@ -5,6 +5,8 @@
     padding: 0;
 }
 
-.active {
+.active-item {
+    color: chartreuse;
+    background-color: darkcyan;
     text-decoration: underline;
 }

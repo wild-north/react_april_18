@@ -1,8 +1,9 @@
 import React from 'react';
-import './styles.css';
 import { CategoryList } from './category-list';
 import { AddItem } from '../add-item';
 import { addCategoryConnector } from './connector';
+
+import { sidebar } from './styles.css';
 
 const AddCategory = addCategoryConnector(AddItem);
 
@@ -12,7 +13,7 @@ export const Sidebar = (props) => {
     } = props;
 
     return (
-        <div className="sidebar">
+        <div className={ sidebar }>
             <AddCategory title="Enter category"/>
             <hr/>
             <CategoryList categories={ categories }
