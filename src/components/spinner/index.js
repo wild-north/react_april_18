@@ -1,5 +1,13 @@
 import React from 'react';
 
 export const Spinner = () => (
-    <img src="loading_spinner.gif" alt="spinner"/>
+    <span className="spinner-content">
+            <img src="loading_spinner.gif" alt="spinner"/>
+    </span>
+);
+
+export const SpinnerForTest = () => (
+    <div className="spinner1">
+        <Spinner/>
+    </div>
 );

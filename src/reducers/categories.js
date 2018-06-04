@@ -2,7 +2,7 @@ import * as constants from '../actions/constants';
 import { map } from 'lodash';
 import Immutable from 'immutable';
 
-const initialState = Immutable.fromJS({
+export const initialState = Immutable.fromJS({
     list: {
         1: {id: 1, name: 'React', parentId: null},
         2: {id: 2, name: 'React-router', parentId: 1},
@@ -43,5 +43,7 @@ export const categories = function (state = initialState, action) {
 function getNewId(list) {
     const ids = map(list, item => item.id);
 
-    return ids[ids.length - 1] + 1;
+    const newId = ids[ids.length - 1] + 1;
+
+    return isNaN(newId) ? 1 : newId;
 }

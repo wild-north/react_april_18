@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="spinner"
+>
+  <span
+    className="spinner-content"
+  >
+    <img
+      alt="spinner"
+      src="loading_spinner.gif"
+    />
+  </span>
+</div>
+`;
