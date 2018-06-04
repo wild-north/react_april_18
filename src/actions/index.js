@@ -65,16 +65,21 @@ export const reallyBigAction = createSequence({
 
 // ДЗ - реализовать функцию и middleware, которые можно использовать так:
 
-export const fetchData = createApiCall({
-  endpoint: 'http://blabla.com',
-  method: 'GET',
-  payload,
-  actions: [
-    'DATA_FETCH_REQUEST',
-    'DATA_FETCH_SUCCESS',
-    'DATA_FETCH_FAILURE'
-  ]
-});
+// const createApiCall = (params) => ({
+//     type: 'CREATE_API_CALL',
+//     payload: params
+// });
+//
+// export const fetchData = createApiCall({
+//   endpoint: 'http://blabla.com',
+//   method: 'GET',
+//   payload,
+//   actions: [
+//     'DATA_FETCH_REQUEST',
+//     'DATA_FETCH_SUCCESS',
+//     'DATA_FETCH_FAILURE'
+//   ]
+// });
 
 //fetchData({ myData: 123123 }); // http://blabla.com?myData=123123
 
