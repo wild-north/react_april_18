@@ -6,12 +6,18 @@ import { contentConnector } from '../todos/connector';
 import './index.css';
 import Confirm from '../components/modals/confirm-delete-category';
 import { confirmModalConnector } from '../todos/connector';
+import { store } from '../index';
+import { getCategories } from '../actions';
+import { appConnector } from './connector';
 
 const MySidebar = sidebarConnector(Sidebar);
 const MyContent = contentConnector(Content);
 const ConfirmTaskDeletion = confirmModalConnector(Confirm);
 
 class TodoApp extends Component {
+    componentWillMount() {
+        this.props.getCategories();
+    }
     render() {
         return (
             <Fragment>
@@ -25,7 +31,7 @@ class TodoApp extends Component {
     }
 }
 
-export default TodoApp;
+export default appConnector(TodoApp);
 
 
 

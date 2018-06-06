@@ -18,14 +18,23 @@ export const failData = createAction('DATA_FAILURE');
 export const confirmTaskDeletion = createAction(constants.TASK_DELETE_CONFIRM);
 
 
-export const getData = (payload) => (dispatch) => {
-    dispatch(requestData());
-    //////////// место для аякс-запроса ////////
-    setTimeout(() => {
-        Math.random() > 0.5
-            ? dispatch(resolveData())
-            : dispatch(failData());
-    }, 2000);
+export const getCategories = () => (dispatch) => {
+    dispatch({
+        type: constants.LOAD_CATEGORIES_REQUEST
+    });
+
+    fetch('data.json').then(resp => resp.json()).then(data => {
+        dispatch({
+            type: constants.LOAD_CATEGORIES_RESOLVE,
+            payload: data
+        });
+    }).catch(err => {
+        dispatch({
+            type: constants.LOAD_CATEGORIES_REJECT,
+            payload: err
+        });
+    })
+
 };
 
 // const addCatAndCloseModal = (dispatch) => {

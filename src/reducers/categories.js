@@ -3,20 +3,31 @@ import { map } from 'lodash';
 import Immutable from 'immutable';
 
 export const initialState = Immutable.fromJS({
-    list: {
-        1: {id: 1, name: 'React', parentId: null},
-        2: {id: 2, name: 'React-router', parentId: 1},
-        3: {id: 3, name: 'Выучить редакс', parentId: null},
-        4: {id: 4, name: 'Блабла 1', parentId: 2},
-        5: {id: 5, name: 'Блабла 2', parentId: 2}
-    },
-    selectedCategory: 1
+    list: {},
+    selectedCategory: 1,
+    isLoading: false
 });
 
 export const categories = function (state = initialState, action) {
     const { type, payload } = action;
 
     switch (type) {
+        case constants.LOAD_CATEGORIES_REQUEST: {
+            return state.set('isLoading', true);
+        }
+
+        case constants.LOAD_CATEGORIES_RESOLVE: {
+            return state
+                .set('list', Immutable.fromJS(payload))
+                .set('isLoading', false)
+        }
+
+        case constants.LOAD_CATEGORIES_REJECT: {
+            return state.set('isLoading', false)
+        }
+
+//////////////////////////////////////////////////////////
+
         case constants.CATEGORY_SELECT:
             return state.set('selectedCategory', payload);
 

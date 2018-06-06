@@ -16,31 +16,34 @@ const initialState = Immutable.fromJS({
 export const todos = function (state = initialState, action) {
     const { type, payload } = action;
 
-    const cases = {
-        [constants.TODO_DONE_TOGGLE]() {
+    switch (type) {
+
+        case constants.TODO_DONE_TOGGLE: {
             return state.updateIn(
                 ['items', `${payload}`, 'done'],
                 (done) => !done
             )
-        },
-        [constants.TODO_SAVE]() {
+        }
+
+        case constants.TODO_SAVE: {
             const { id, text } = payload;
 
             return state.updateIn(
                 ['items', `${id}`, 'text'],
                 () => text
             );
-        },
-        [constants.TODO_DELETE]() {
+        }
+
+        case constants.TODO_DELETE: {
             return state.deleteIn(['items', `${payload}`]);
-        },
-        [constants.TASK_DELETE_CONFIRM]() {
+        }
+
+        case constants.TASK_DELETE_CONFIRM: {
             return state.deleteIn(['items', '1']);
         }
-    };
 
-    if (type in cases) {
-        return cases[type]()
+        default:
+            return state;
     }
-    return state;
+
 };
